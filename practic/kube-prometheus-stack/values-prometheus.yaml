@@ -1,0 +1,6 @@
+prometheus:
+  prometheusSpec:
+    podMonitorSelector: {}
+    podMonitorNamespaceSelector: {}
+    ruleSelector: {}
+    ruleNamespaceSelector: {}

@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: podinfo-alerts
+  namespace: podinfo
+  labels:
+    release: kube-prometheus-stack   # Лейбл для ruleSelector
+spec:
+  groups:
+    - name: podinfo.avaibility
+      rules:
+        - alert: PodInfoUnavailable
+          expr: absent(up{namespace="podinfo"})
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Поды podinfo отсуствуют уже 2 минуты"
+            description: "Prometheus не получает метрики с подов podinfo в namespace podinfo"
