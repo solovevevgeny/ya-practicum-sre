@@ -1,0 +1,76 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: spaceborscht-control
+  namespace: spaceborscht
+  labels:
+    app: spaceborscht
+spec:
+  namespaceSelector:
+    matchNames:
+      - spaceborscht
+  selector:
+    matchLabels:
+      app: control
+  podMetricsEndpoints:
+    - targetPort: 3000
+      path: /metrics
+  
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: spaceborscht-engine
+  namespace: spaceborscht
+  labels:
+    app: spaceborscht
+spec:
+  namespaceSelector:
+    matchNames:
+      - spaceborscht                     # Неймспейс, в котором ищем поды
+  selector:
+    matchLabels:
+      app: engine  # Лейблы подов, которые нужно мониторить
+  podMetricsEndpoints:
+    - targetPort: 3001                    # Имя порта (из spec.containers[].ports в деплойменте)
+      path: /metrics
+  
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: spaceborscht-telemetry
+  namespace: spaceborscht
+  labels:
+    app: spaceborscht
+spec:
+  namespaceSelector:
+    matchNames:
+      - spaceborscht                     # Неймспейс, в котором ищем поды
+  selector:
+    matchLabels:
+      app: telemetry  # Лейблы подов, которые нужно мониторить
+  podMetricsEndpoints:
+    - targetPort: 3002                    # Имя порта (из spec.containers[].ports в деплойменте)
+      path: /metrics
+  
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: spaceborscht-comms
+  namespace: spaceborscht
+  labels:
+    app: spaceborscht
+spec:
+  namespaceSelector:
+    matchNames:
+      - spaceborscht                     # Неймспейс, в котором ищем поды
+  selector:
+    matchLabels:
+      app: comms  # Лейблы подов, которые нужно мониторить
+  podMetricsEndpoints:
+    - targetPort: 3003                  # Имя порта (из spec.containers[].ports в деплойменте)
+      path: /metrics
+  

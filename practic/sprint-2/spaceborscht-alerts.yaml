@@ -1,0 +1,61 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: spaceborscht-alerts
+  namespace: spaceborscht
+  labels:
+     app: spaceborscht
+spec:
+  groups:
+    - name: spaceborscht.rules
+      rules:
+        - alert: SpaceBorschtHighErrorRate
+          expr: |
+            (
+              sum by (namespace, service) (
+                rate(http_requests_total{
+                  namespace="spaceborscht",
+                  status=~"5.."
+                }[5m])
+              )
+              /
+              sum by (namespace, service) (
+                rate(http_requests_total{
+                  namespace="spaceborscht"
+                }[5m])
+              )
+            ) > 0.05
+
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Высокая частота ошибок в сервисе {{ $labels.service }}"
+            description: "Сервис {{ $labels.service }} в пространстве имен {{ $labels.namespace }} имеет частоту ошибок >5% за последние 5 минут."
+
+        - alert: SpaceBorschtHighLatency
+          expr: 
+            histogram_quantile(0.95, sum by (le, namespace, service) (
+              rate(http_request_duration_seconds_bucket{
+                namespace="spaceborscht"
+              }[5m])
+            ))  > 1
+
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Высокая задержка в сервисе {{ $labels.service }}"
+            description: "Сервис {{ $labels.service }} в пространстве имен {{ $labels.namespace }} имеет задержку >1 секунды в 95-ом перцентиле за последние 5 минут."
+          
+        - alert: SpaceBorschtSLOBreach
+          expr:  
+            sum(rate(http_requests_total{namespace="spaceborscht", service="control", status=~"5.."}[1h]))*100 > 1
+          for: 1h
+          labels:
+            severity: critical
+          annotations:
+            summary: "Частота ошибок в сервисе {{ $labels.service }} >1"
+            description: "Сервис {{ $labels.service }} в пространстве имен {{ $labels.namespace }} имеет частоту ошибок > 1% 1 час."
+          
