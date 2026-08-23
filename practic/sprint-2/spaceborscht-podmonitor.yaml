@@ -28,12 +28,12 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-      - spaceborscht                     # Неймспейс, в котором ищем поды
+      - spaceborscht 
   selector:
     matchLabels:
-      app: engine  # Лейблы подов, которые нужно мониторить
+      app: engine
   podMetricsEndpoints:
-    - targetPort: 3001                    # Имя порта (из spec.containers[].ports в деплойменте)
+    - targetPort: 3001 
       path: /metrics
   
 ---
@@ -47,12 +47,12 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-      - spaceborscht                     # Неймспейс, в котором ищем поды
+      - spaceborscht 
   selector:
     matchLabels:
-      app: telemetry  # Лейблы подов, которые нужно мониторить
+      app: telemetry
   podMetricsEndpoints:
-    - targetPort: 3002                    # Имя порта (из spec.containers[].ports в деплойменте)
+    - targetPort: 3002 
       path: /metrics
   
 ---
@@ -66,11 +66,11 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-      - spaceborscht                     # Неймспейс, в котором ищем поды
+      - spaceborscht 
   selector:
     matchLabels:
-      app: comms  # Лейблы подов, которые нужно мониторить
+      app: comms
   podMetricsEndpoints:
-    - targetPort: 3003                  # Имя порта (из spec.containers[].ports в деплойменте)
+    - targetPort: 3003 
       path: /metrics
   
