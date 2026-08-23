@@ -12,8 +12,3 @@ prometheus:
     ruleNamespaceSelector: 
       matchLabels:
         kubernetes.io/metadata.name: spaceborscht      
-
-# alertmanager:
-#   alertmanagerSpec:
-#     alertmanagerConfigSelector: {}
-#     alertmanagerConfigNamespaceSelector: {}
