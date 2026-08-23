@@ -1,0 +1,14 @@
+prometheus:
+  prometheusSpec:
+    podMonitorSelector: 
+      matchLabels:
+        app: spaceborscht
+    podMonitorNamespaceSelector: 
+      matchNames:
+        - spaceborscht
+    ruleSelector:
+      matchLabels:
+        app: spaceborscht
+    ruleNamespaceSelector: 
+      matchLabels:
+        kubernetes.io/metadata.name: spaceborscht      
