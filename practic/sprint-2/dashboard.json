@@ -5,18 +5,18 @@
     "name": "adzq9pg",
     "namespace": "default",
     "uid": "ec8c7a09-2277-4914-bed9-d9715f8a2398",
-    "resourceVersion": "1787553739847982",
-    "generation": 25,
+    "resourceVersion": "1787554285886018",
+    "generation": 26,
     "creationTimestamp": "2026-08-22T15:37:03Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "1517679478300672"
     },
     "annotations": {
       "grafana.app/createdBy": "user:efvx9kkuqbr40f",
-      "grafana.app/message": "change `by container` -> `by service` on panel TRAFFIC",
+      "grafana.app/message": "add filter namespace=\"spaceborscht\" in ERRORS and SATURATION",
       "grafana.app/saved-from-ui": "Grafana v13.2.0 (f681b1359f)",
       "grafana.app/updatedBy": "user:efvx9kkuqbr40f",
-      "grafana.app/updatedTimestamp": "2026-08-24T06:42:19Z"
+      "grafana.app/updatedTimestamp": "2026-08-24T06:51:25Z"
     }
   },
   "spec": {
@@ -187,7 +187,7 @@
                       "spec": {
                         "editorMode": "code",
                         "exemplar": true,
-                        "expr": "(\n    sum by (service) (\n        rate(http_requests_total{status=~\"5..\"}[5m])\n    )\n    or \n    sum by (service) (\n        rate(http_requests_total[5m])\n    ) * 0\n)\n\n/ \n\nsum by (service) (\n    rate(http_requests_total[5m])\n) ",
+                        "expr": "(\n    sum by (service) (\n        rate(http_requests_total{namespace=\"spaceborscht\", status=~\"5..\"}[5m])\n    )\n    or \n    sum by (service) (\n        rate(http_requests_total{namespace=\"spaceborscht\"}[5m])\n    ) * 0\n)\n\n/ \n\nsum by (service) (\n    rate(http_requests_total{namespace=\"spaceborscht\"}[5m])\n) ",
                         "format": "time_series",
                         "instant": false,
                         "interval": "",
@@ -317,7 +317,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "sum(app_active_sessions) or vector(0)",
+                        "expr": "sum(app_active_sessions{namespace=\"spaceborscht\"}) or vector(0)",
                         "legendFormat": "active mission",
                         "range": true
                       }
