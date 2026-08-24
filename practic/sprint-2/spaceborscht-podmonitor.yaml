@@ -5,7 +5,7 @@ metadata:
   name: spaceborscht-control
   namespace: spaceborscht
   labels:
-    app: spaceborscht
+    release: kube-prometheus-stack
 spec:
   namespaceSelector:
     matchNames:
@@ -24,7 +24,7 @@ metadata:
   name: spaceborscht-engine
   namespace: spaceborscht
   labels:
-    app: spaceborscht
+    release: kube-prometheus-stack
 spec:
   namespaceSelector:
     matchNames:
@@ -43,7 +43,7 @@ metadata:
   name: spaceborscht-telemetry
   namespace: spaceborscht
   labels:
-    app: spaceborscht
+    release: kube-prometheus-stack
 spec:
   namespaceSelector:
     matchNames:
@@ -62,7 +62,7 @@ metadata:
   name: spaceborscht-comms
   namespace: spaceborscht
   labels:
-    app: spaceborscht
+    release: kube-prometheus-stack
 spec:
   namespaceSelector:
     matchNames:

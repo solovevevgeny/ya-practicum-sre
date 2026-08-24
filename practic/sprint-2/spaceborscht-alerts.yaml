@@ -5,7 +5,7 @@ metadata:
   name: spaceborscht-alerts
   namespace: spaceborscht
   labels:
-     app: spaceborscht
+     release: kube-prometheus-stack
 spec:
   groups:
     - name: spaceborscht.rules

@@ -2,13 +2,11 @@ prometheus:
   prometheusSpec:
     podMonitorSelector: 
       matchLabels:
-        app: spaceborscht
+        release: kube-prometheus-stack
     podMonitorNamespaceSelector: 
       matchNames:
         - spaceborscht
-    ruleSelector:
+    ruleSelector: 
       matchLabels:
-        app: spaceborscht
-    ruleNamespaceSelector: 
-      matchLabels:
-        kubernetes.io/metadata.name: spaceborscht      
+        release: kube-prometheus-stack
+    ruleNamespaceSelector: {}
