@@ -51,8 +51,19 @@ spec:
           
         - alert: SpaceBorschtSLOBreach
           expr:  
-            sum(rate(http_requests_total{namespace="spaceborscht", service="control", status=~"5.."}[1h]))*100 > 1
-          for: 1h
+            (
+              sum(rate(http_requests_total{
+                namespace="spaceborscht",
+                service="control",
+                status=~"5.."
+              }[1h]))
+              /
+              sum(rate(http_requests_total{
+                namespace="spaceborscht",
+                service="control"
+              }[1h]))
+            ) * 100 > 1
+          for: 5m
           labels:
             severity: critical
           annotations:
