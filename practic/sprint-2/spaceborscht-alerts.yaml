@@ -66,7 +66,9 @@ spec:
           for: 5m
           labels:
             severity: critical
+            service: control
+            namespace: spaceborscht
           annotations:
-            summary: "Частота ошибок в сервисе {{ $labels.service }} >1"
+            summary: "Частота ошибок в сервисе {{ $labels.service }} > 1% за 1 час"
             description: "Сервис {{ $labels.service }} в пространстве имен {{ $labels.namespace }} имеет частоту ошибок > 1% 1 час."
           
