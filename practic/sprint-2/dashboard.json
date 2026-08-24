@@ -5,17 +5,18 @@
     "name": "adzq9pg",
     "namespace": "default",
     "uid": "ec8c7a09-2277-4914-bed9-d9715f8a2398",
-    "resourceVersion": "1787474963488988",
-    "generation": 23,
+    "resourceVersion": "1787553037189994",
+    "generation": 24,
     "creationTimestamp": "2026-08-22T15:37:03Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "1517679478300672"
     },
     "annotations": {
       "grafana.app/createdBy": "user:efvx9kkuqbr40f",
+      "grafana.app/message": "remove \"stacked\" from Latecy/Saturation",
       "grafana.app/saved-from-ui": "Grafana v13.2.0 (f681b1359f)",
       "grafana.app/updatedBy": "user:efvx9kkuqbr40f",
-      "grafana.app/updatedTimestamp": "2026-08-23T08:49:23Z"
+      "grafana.app/updatedTimestamp": "2026-08-24T06:30:37Z"
     }
   },
   "spec": {
@@ -399,7 +400,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.9,
                     "drawStyle": "line",
-                    "fillOpacity": 24,
+                    "fillOpacity": 10,
                     "gradientMode": "none",
                     "hideFrom": {
                       "legend": false,
@@ -421,7 +422,7 @@
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
-                      "mode": "normal"
+                      "mode": "none"
                     },
                     "thresholdsStyle": {
                       "mode": "off"
@@ -544,7 +545,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.9,
                     "drawStyle": "line",
-                    "fillOpacity": 50,
+                    "fillOpacity": 10,
                     "gradientMode": "none",
                     "hideFrom": {
                       "legend": false,
@@ -566,7 +567,7 @@
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
-                      "mode": "normal"
+                      "mode": "none"
                     },
                     "thresholdsStyle": {
                       "mode": "off"
