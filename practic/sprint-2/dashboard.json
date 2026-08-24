@@ -5,18 +5,18 @@
     "name": "adzq9pg",
     "namespace": "default",
     "uid": "ec8c7a09-2277-4914-bed9-d9715f8a2398",
-    "resourceVersion": "1787557899682992",
-    "generation": 31,
+    "resourceVersion": "1787558232526007",
+    "generation": 32,
     "creationTimestamp": "2026-08-22T15:37:03Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "1517679478300672"
     },
     "annotations": {
       "grafana.app/createdBy": "user:efvx9kkuqbr40f",
-      "grafana.app/message": "fix NaN in traffic",
+      "grafana.app/message": "fix name latency panel",
       "grafana.app/saved-from-ui": "Grafana v13.2.0 (f681b1359f)",
       "grafana.app/updatedBy": "user:efvx9kkuqbr40f",
-      "grafana.app/updatedTimestamp": "2026-08-24T07:51:39Z"
+      "grafana.app/updatedTimestamp": "2026-08-24T07:57:12Z"
     }
   },
   "spec": {
@@ -439,7 +439,7 @@
         "kind": "Panel",
         "spec": {
           "id": 4,
-          "title": "Задержка - P95 HTTP (sec)",
+          "title": "Задержка - P95/P50",
           "description": "",
           "links": [],
           "data": {
