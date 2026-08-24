@@ -5,18 +5,18 @@
     "name": "adzq9pg",
     "namespace": "default",
     "uid": "ec8c7a09-2277-4914-bed9-d9715f8a2398",
-    "resourceVersion": "1787553037189994",
-    "generation": 24,
+    "resourceVersion": "1787553739847982",
+    "generation": 25,
     "creationTimestamp": "2026-08-22T15:37:03Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "1517679478300672"
     },
     "annotations": {
       "grafana.app/createdBy": "user:efvx9kkuqbr40f",
-      "grafana.app/message": "remove \"stacked\" from Latecy/Saturation",
+      "grafana.app/message": "change `by container` -> `by service` on panel TRAFFIC",
       "grafana.app/saved-from-ui": "Grafana v13.2.0 (f681b1359f)",
       "grafana.app/updatedBy": "user:efvx9kkuqbr40f",
-      "grafana.app/updatedTimestamp": "2026-08-24T06:30:37Z"
+      "grafana.app/updatedTimestamp": "2026-08-24T06:42:19Z"
     }
   },
   "spec": {
@@ -67,7 +67,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "sum(rate(http_requests_total{namespace=\"spaceborscht\"}[$__rate_interval]))by (container)",
+                        "expr": "sum(rate(http_requests_total{namespace=\"spaceborscht\"}[$__rate_interval]))by (service)",
                         "legendFormat": "__auto",
                         "range": true
                       }
