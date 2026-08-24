@@ -5,18 +5,18 @@
     "name": "adzq9pg",
     "namespace": "default",
     "uid": "ec8c7a09-2277-4914-bed9-d9715f8a2398",
-    "resourceVersion": "1787555035170990",
-    "generation": 29,
+    "resourceVersion": "1787555378005018",
+    "generation": 30,
     "creationTimestamp": "2026-08-22T15:37:03Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "1517679478300672"
     },
     "annotations": {
       "grafana.app/createdBy": "user:efvx9kkuqbr40f",
-      "grafana.app/message": "change status \n200 -> 2.. (200,201..)\nerrors 500 -> 5.. (502, 503, 504)",
+      "grafana.app/message": "clamp_min in burn_rate",
       "grafana.app/saved-from-ui": "Grafana v13.2.0 (f681b1359f)",
       "grafana.app/updatedBy": "user:efvx9kkuqbr40f",
-      "grafana.app/updatedTimestamp": "2026-08-24T07:03:55Z"
+      "grafana.app/updatedTimestamp": "2026-08-24T07:09:38Z"
     }
   },
   "spec": {
@@ -705,7 +705,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "(\n(\n  sum(rate(service_calls_total{\n    from_service=\"control\",\n    status=~\"5..\"\n  }[5m]))\n/\nsum(rate(service_calls_total{\n    from_service=\"control\"\n  }[5m]))\n)\n/\n0.01) or vector(0)",
+                        "expr": "(\n  (\n    sum(rate(service_calls_total{\n      from_service=\"control\",\n      status=~\"5..\"\n    }[5m]))\n    /\n    clamp_min(\n      sum(rate(service_calls_total{\n        from_service=\"control\"\n      }[5m])),\n      1e-9\n    )\n  ) / 0.01\n) or vector(0)",
                         "legendFormat": "Burn Rate 5M",
                         "range": true
                       }
@@ -726,7 +726,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "((\n  sum(rate(service_calls_total{\n    from_service=\"control\",\n    status=~\"5..\"\n  }[30m]))\n/\nsum(rate(service_calls_total{\n    from_service=\"control\"\n  }[30m]))\n)\n/\n0.01) or vector(0)",
+                        "expr": "(\n  (\n    sum(rate(service_calls_total{\n      from_service=\"control\",\n      status=~\"5..\"\n    }[30m]))\n    /\n    clamp_min(\n      sum(rate(service_calls_total{\n        from_service=\"control\"\n      }[30m])),\n      1e-9\n    )\n  ) / 0.01\n) or vector(0)",
                         "instant": false,
                         "legendFormat": "Burn Rate 30M",
                         "range": true
