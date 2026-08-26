@@ -2,11 +2,7 @@ prometheus:
   prometheusSpec:
     enableFeatures:
       - exemplar-storage 
-    podMonitorSelector: 
-      matchLabels:
-        release: kube-prometheus-stack
+    podMonitorSelector: {}
     podMonitorNamespaceSelector: {}
-    ruleSelector: 
-      matchLabels:
-        release: kube-prometheus-stack
+    ruleSelector: {}
     ruleNamespaceSelector: {}
