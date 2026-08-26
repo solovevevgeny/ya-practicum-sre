@@ -1,0 +1,40 @@
+﻿grafana:
+  sidecar:
+    datasources:
+      exemplarTraceIdDestinations:
+        traceIdLabelName: traceId
+        datasourceUid: tempo
+        urlDisplayLabel: "Query in Tempo"
+
+  additionalDataSources:
+
+    # --- Tempo ---
+    - name: Tempo
+      type: tempo
+      uid: tempo               # Фиксированный UID, на который ссылаются Prometheus и Loki
+      url: http://tempo-gateway.tempo.svc.cluster.local
+      jsonData:
+        tracesToLogsV2:        # API v2 поддерживает LogQL-фильтры (в отличие от устаревшего tracesToLogs)
+          datasourceUid: loki  # UID источника логов
+          filterByTraceID: false
+          spanStartTimeShift: '-1m' # Расширяем окно поиска логов относительно начала спана
+          spanEndTimeShift: '1m'    # Таймстемпы лога и трейса могут не совпадать с точностью до миллисекунды
+          customQuery: true    # Без этого флага поле query ниже будет проигнорировано
+          query: '{k8s_namespace_name="spaceborscht"} | json | trace_id = `$${__span.traceId}`'
+        nodeGraph:
+          enabled: true        # Включение графа сервисов в интерфейсе просмотра трейса
+
+    # --- Loki ---
+    - name: Loki
+      type: loki
+      uid: loki                # Фиксированный UID
+      url: http://loki-gateway.loki.svc.cluster.local
+      jsonData:
+        httpHeaderName1: 'X-Scope-OrgID'   # Loki работает в multi-tenant режиме
+        derivedFields:
+          - name: traceId      # Название кнопки, которая появится рядом со строкой лога
+            matcherRegex: '"trace_id"\s*:\s*"([a-fA-F0-9]{32})"'
+            url: '$${__value.raw}'   # Извлечённое значение передаётся в целевой источник
+            datasourceUid: tempo     # UID целевого источника трейсов
+      secureJsonData:
+        httpHeaderValue1: 'otel'     # Tenant ID, под которым OTel Collector записывает логи
