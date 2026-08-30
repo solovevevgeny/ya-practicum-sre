@@ -1,0 +1,130 @@
+---
+apiVersion: v1
+kind: ConfigMap
+data:
+  app.js: |
+    const http = require('http');
+    const url = require('url');
+    const start = Date.now();
+    // Initializing - imagine 60s waiting
+    let ready = false
+    setTimeout(() => { ready = true; }, 60 * 1000)
+    const citations = [
+      'Упал – не значит упал. Провал – это там где не встал',
+      'Лучше быть тем кем есть, чем быть тем, кем не будешь',
+      'Если волк молчит то лучше его – не перебивать',
+      'Волк меняет шкуру, но не нрав',
+    ];
+    function do_citation(req_url, res) {
+      // Find ID
+      const ids = req_url.query
+        .split('&')
+        .map(pair => pair.split('='))
+        .filter(pair => pair[0] == 'id');
+      if (ids.length == 0) {
+        res.statusCode = 400;
+        res.end();
+        return;
+      }
+      const id = parseInt(ids[ids.length - 1][1])
+      if (isNaN(id)) {
+        res.statusCode = 400;
+        res.end();
+        return;
+      }
+      if (id < 0 || id >= citations.length) {
+        res.statusCode = 400;
+        res.end();
+        return;
+      }
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(citations[id] + '\n');
+    }
+    const server = http.createServer((req, res) => {
+      if (!ready) {
+          res.statusCode = 500;
+          res.end();
+          return;
+      }
+      req_url = url.parse(req.url)
+      switch (req_url.pathname) {
+        case '/citation':
+          do_citation(req_url, res);
+          return;
+        case '/healthz':
+          res.statusCode = 200;
+          break;
+        default:
+          res.statusCode = 400;
+          break;
+      }
+      res.end();
+    });
+    const port = 3000;
+    server.listen(port, '0.0.0.0', () => {
+      console.log(`Server listening on ${port}...\n`);
+    });
+metadata:
+  name: app-code
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: app-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-v1
+  template:
+    metadata:
+      labels:
+        app: app-v1
+    spec:
+      containers:
+      - name: hello-v1
+        image: node:24.11.1-trixie
+        command:
+        - node
+        args:
+        - /app.js
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: app-volume
+          mountPath: /app.js
+          subPath: app.js
+      volumes:
+      - name: app-volume
+        configMap:
+          name: app-code
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: app-v1
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-myservice
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: app-service
+      port:
+        number: 3000
